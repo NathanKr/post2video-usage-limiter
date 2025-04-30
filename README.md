@@ -10,7 +10,7 @@
 in post2video i have open ai key which is share by all users. currently i am working on the free tier and i want to allow each user on the free tier to have up to 6 video upload to youtube and consume no more than 20 cents (later there will be payed tier so things will be more complex) - so how to do it ? 
 
 minimally you need the following :
-- collect video upload and api consumption
+- collect video uploads and api consumption per user
 - once limit reach notify and do not allow to enter specific pages
 
 <h2>Installation</h2>
@@ -27,11 +27,21 @@ minimally you need the following :
 
 <h2>Design</h2>
 questions
-- can i come with generic design
-- does design involve ui 
-- does it involve the user management (check <a href='https://github.com/NathanKr/post2video-user-management'>post2video-user-management</a>) i.e. clerk
-- if clerk is part of the design ---> can i use role for better design
+<ol>
+<li>can i come with generic design</li>
+<li>does design involve ui </li>
+<li>does it involve the user management (check <a href='https://github.com/NathanKr/post2video-user-management'>post2video-user-management</a>) i.e. clerk</li>
+<li>if clerk is part of the design ---> can i use role for better design</li>
+</ol>
 
+gemini answers :
+In summary:
+<ol>
+    <li>Start with a generic design for the core logic of tracking, enforcing, notifying, and blocking</li>
+    <li>The initial design doesn't need to include UI details, but you should consider how the UI will eventually interact with the backend</li>
+    <li>Your design must integrate with your user management system (Clerk) to associate usage with specific users</li>
+    <li>Leveraging roles in Clerk is a highly recommended approach for a cleaner, more scalable design, especially when considering future paid tiers and potentially different limits</li>
+</ol>
 
 <h2>Code Structure</h2>
 ....
