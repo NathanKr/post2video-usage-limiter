@@ -32,6 +32,7 @@ questions
 <li>does design involve ui </li>
 <li>does it involve the user management (check <a href='https://github.com/NathanKr/post2video-user-management'>post2video-user-management</a>) i.e. clerk</li>
 <li>if clerk is part of the design ---> can i use role for better design</li>
+
 </ol>
 
 gemini answers :
@@ -42,6 +43,22 @@ In summary:
     <li>Your design must integrate with your user management system (Clerk) to associate usage with specific users</li>
     <li>Leveraging roles in Clerk is a highly recommended approach for a cleaner, more scalable design, especially when considering future paid tiers and potentially different limits</li>
 </ol>
+
+
+More questions
+
+<h3>choose roles</h3>
+Q : user can be in one of these state : admin , not registred ,registred (free tier,free tier expired , payed program , payed program expired) does every state is a role
+
+A : Yes, I've identified three primary roles based on the fundamental levels of access and responsibilities:
+
+    Admin: Full control and management capabilities.
+    Free Tier: Basic access and permissions granted to registered users without a paid subscription.
+    Paid Tier: Enhanced access and permissions associated with users who have a paid subscription.
+
+Then, for the states like "free tier expired" and "paid program expired," we'd use user metadata within Clerk to track those temporary statuses. Your application logic would then consider both the user's role and their metadata to determine their current level of access and the features available to them.
+
+Not registerd will give null user so no need for user because here user must be registered
 
 <h2>Code Structure</h2>
 ....
