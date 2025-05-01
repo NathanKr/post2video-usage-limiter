@@ -47,6 +47,33 @@ In summary:
 
 More questions
 
+<h3>use withAuth HOC</h3>
+by default it allow nothing so you must provide role with it
+
+Q :  how about higher order component withAuth and you pass the role it allowed and you wrap on each page. this is very nice design isnt it 
+
+A : Yes, using a Higher-Order Component (HOC) like withAuth to wrap your Next.js pages and enforce role-based access control is indeed a very nice and often preferred design pattern! It promotes code reusability, keeps your page components cleaner, and makes your authentication and authorization logic more centralized.
+
+Why this is a nice design:
+
+<ul>
+  <li><strong>Code Reusability:</strong> You define the authentication and authorization logic once in the <code>withAuth</code> HOC and then reuse it across multiple pages. This avoids repeating the same checks in every page component.</li>
+  <li><strong>Cleaner Page Components:</strong> Your actual page components can focus on their core functionality and rendering logic without being cluttered with authentication and authorization boilerplate.</li>
+  <li><strong>Centralized Control:</strong> All your access control rules are managed in one place (within the <code>withAuth</code> HOC), making it easier to understand, update, and maintain your application's security policies.</li>
+  <li><strong>Improved Readability:</strong> Wrapping a page with <code>withAuth(allowedRoles)</code> clearly indicates the access requirements for that page at a glance.</li>
+  <li><strong>Consistency:</strong> It ensures a consistent approach to authentication and authorization across your application.</li>
+</ul>
+
+<h3>page level resource</h3>
+can resource i am protecting be on page level ?
+
+Yes, absolutely! When we talk about protecting "resources" with role-based access control (RBAC), a page in your Next.js application is a very common and fundamental type of resource that you'll want to secure.
+
+Think of it this way:
+
+    Resource: Anything in your application that you want to control access to. This can be data, functionality, or specific parts of the user interface.
+    Page: A specific URL or view in your web application
+
 <h3>choose roles</h3>
 Q : user can be in one of these state : admin , not registred ,registred (free tier,free tier expired , payed program , payed program expired) does every state is a role
 
@@ -74,7 +101,7 @@ Not registerd will give null user so no need for user because here user must be 
 
 <h2>References</h2>
 <ul>
-    <li>...</li>
+    <li><a href='https://youtu.be/5GG-VUvruzE?si=bwwWJWRYnqm6F_a7'> How To Handle Permissions Like A Senior Dev </a> Nov 2024 WDS</li>
    
 </ul>
 
