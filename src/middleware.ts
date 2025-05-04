@@ -1,10 +1,28 @@
-import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
+import {
+  clerkMiddleware,
+  createRouteMatcher,
+  clerkClient,
+} from "@clerk/nextjs/server";
+import { isAdmin } from "./logic/clerk-user-data-helper-utils";
+import { NextResponse } from "next/server";
 
-const isPublicRoute = createRouteMatcher(["/" , "/page-not-restricted"]);
+const isPublicRoute = createRouteMatcher(["/", "/page-not-restricted"]);
+const isAdminRoute = createRouteMatcher(["/admin"]);
 
 export default clerkMiddleware(async (auth, req) => {
   if (!isPublicRoute(req)) {
-    await auth.protect();
+    await auth.protect(); // -- if not login redirect to sign in otherwise contine
+
+    // --- come here means user is logged in
+    const { userId } = await auth();
+    const client = await clerkClient();
+
+    if (isAdminRoute(req)) {
+      const user = await client.users.getUser(userId!); // userId can not be null after auth.protect()
+      if (!isAdmin(user)) {
+        return NextResponse.redirect(new URL("/403", req.url));
+      }
+    }
   }
 });
 

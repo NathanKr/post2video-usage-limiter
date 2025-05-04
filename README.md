@@ -1,35 +1,36 @@
 <h1>todo</h1>
-- add admin page and navigate by role
-- add free tier page and navigate by role
+- add admin page and navigate by role (static)
+- add free tier page and navigate by role (dynamic)
+- do i need UserData page
 - do not allow call function if consume more than allowed
-- consider doing project of it own in clerk
 
 <h1>Project Name</h1>
 ....
-
-
 
 <h2>Project Description</h2>
 ....
 
 <h2>Motivation</h2>
-in post2video i have open ai key which is share by all users. currently i am working on the free tier and i want to allow each user on the free tier to have up to 6 video upload to youtube and consume no more than 20 cents (later there will be payed tier so things will be more complex) - so how to do it ? 
+in post2video i have open ai key which is share by all users. currently i am working on the free tier and i want to allow each user on the free tier to have up to 6 video upload to youtube and consume no more than 20 cents (later there will be payed tier so things will be more complex) - so how to do it ?
 
 minimally you need the following :
+
 - collect video uploads and api consumption per user
 - once limit reach notify and do not allow to enter specific pages
 
 <h2>Installation</h2>
-....
 
+follow <a href='#ref1'>[1]</a> for creating the project skeleton
+
+<h3>admin role</h3>
+I have create the admin role from the dashboard
+follow this image <img src='./figs/create-admin-role-from-dashboard.png'/>
 
 <h2>Usage</h2>
 ....
 
-
 <h2>Technologies Used</h2>
 ....
-
 
 <h2>Design</h2>
 questions
@@ -43,6 +44,7 @@ questions
 
 gemini answers :
 In summary:
+
 <ol>
     <li>Start with a generic design for the core logic of tracking, enforcing, notifying, and blocking</li>
     <li>The initial design doesn't need to include UI details, but you should consider how the UI will eventually interact with the backend</li>
@@ -50,17 +52,15 @@ In summary:
     <li>Leveraging roles in Clerk is a highly recommended approach for a cleaner, more scalable design, especially when considering future paid tiers and potentially different limits</li>
 </ol>
 
-
 More questions
 
 <h3>do i need clerk role or use privateData\publicData role property</h3>
-u dont but it is easier because you can access it from client and server
-but create only from server
+roles seems way too complicated for me because in clerk role has permission but i dont need permissions just role name : admin , free-tier, .... so i think that role member in private data is enough
 
 <h3>use withAuth HOC</h3>
 by default it allow nothing so you must provide role with it
 
-Q :  how about higher order component withAuth and you pass the role it allowed and you wrap on each page. this is very nice design isnt it 
+Q : how about higher order component withAuth and you pass the role it allowed and you wrap on each page. this is very nice design isnt it
 
 A : Yes, using a Higher-Order Component (HOC) like withAuth to wrap your Next.js pages and enforce role-based access control is indeed a very nice and often preferred design pattern! It promotes code reusability, keeps your page components cleaner, and makes your authentication and authorization logic more centralized.
 
@@ -110,8 +110,6 @@ Not registerd will give null user so no need for user because here user must be 
 </ul>
 
 <h2>References</h2>
-<ul>
-    <li><a href='https://youtu.be/5GG-VUvruzE?si=bwwWJWRYnqm6F_a7'> How To Handle Permissions Like A Senior Dev </a> Nov 2024 WDS</li>
-   <li><a href='https://youtu.be/5zE_c5kDDDs?si=qwxnm54ILEVbTYR6'> Seamless User Management with Clerk and Next.js </a></li>
-</ul>
-
+<ol>
+<li id='ref1'><a href='https://youtu.be/5zE_c5kDDDs?si=qwxnm54ILEVbTYR6'> Seamless User Management with Clerk and Next.js </a></li>
+</ol>

@@ -49,7 +49,7 @@ export default function RootLayout({
             <Link href='/user-profile'>UserProfile</Link>
             <Link href='/page-not-restricted'>PageNotRestricted</Link>
             <Link href='/user-data'>UserData</Link>
-
+            <Link href='/admin'>Admin</Link>
           </header>
           {children}
         </body>
