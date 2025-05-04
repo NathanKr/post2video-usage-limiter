@@ -6,7 +6,8 @@ export function isAdmin(user: User): boolean {
   try {
     const { role } = roleSchema.parse(user.privateMetadata);
     return role == Role.admin;
-  } catch (error) {
+  } catch (err) {
+    console.error(err)
     return false;
   }
 }
