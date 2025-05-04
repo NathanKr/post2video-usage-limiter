@@ -49,6 +49,7 @@ More questions
 
 <h3>do i need clerk role or use privateData\publicData role property</h3>
 u dont but it is easier because you can access it from client and server
+but create only from server
 
 <h3>use withAuth HOC</h3>
 by default it allow nothing so you must provide role with it
