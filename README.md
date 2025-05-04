@@ -1,3 +1,9 @@
+<h1>todo</h1>
+- add admin page and navigate by role
+- add free tier page and navigate by role
+- do not allow call function if consume more than allowed
+- consider doing project of it own in clerk
+
 <h1>Project Name</h1>
 ....
 
@@ -106,6 +112,6 @@ Not registerd will give null user so no need for user because here user must be 
 <h2>References</h2>
 <ul>
     <li><a href='https://youtu.be/5GG-VUvruzE?si=bwwWJWRYnqm6F_a7'> How To Handle Permissions Like A Senior Dev </a> Nov 2024 WDS</li>
-   
+   <li><a href='https://youtu.be/5zE_c5kDDDs?si=qwxnm54ILEVbTYR6'> Seamless User Management with Clerk and Next.js </a></li>
 </ul>
 
