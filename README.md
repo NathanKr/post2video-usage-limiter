@@ -54,6 +54,13 @@ In summary:
 
 More questions
 
+<h3>create user private metadata after success signup</h3>
+options :
+- web hooks - after event user.created
+- onboarding
+
+bottom line - For updating privateMetadata on user creation, using a Clerk webhook is the most secure, reliable, and flexible design. It adheres to the intended scope of privateMetadata and allows you to implement robust backend logic
+
 <h3>do i need clerk role or use privateData\publicData role property</h3>
 roles seems way too complicated for me because in clerk role has permission but i dont need permissions just role name : admin , free-tier, .... so i think that role member in private data is enough
 
