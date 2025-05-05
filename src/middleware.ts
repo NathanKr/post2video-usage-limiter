@@ -10,6 +10,8 @@ const isPublicRoute = createRouteMatcher(["/", "/page-not-restricted"]);
 const isAdminRoute = createRouteMatcher(["/admin"]);
 
 export default clerkMiddleware(async (auth, req) => {
+  console.log(`url in middleware : ${req.url}`)
+
   if (!isPublicRoute(req)) {
     await auth.protect(); // -- if not login redirect to sign in otherwise contine
 

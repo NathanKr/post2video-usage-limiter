@@ -74,34 +74,13 @@ CLERK_SIGN_UP_FORCE_REDIRECT_URL=/signup/success
     Within this page, implement the client-side component (AfterSignupHandler) that uses the useClerk() hook and the useEffect to check for isSignedIn and isUserLoaded and then trigger your initializeUserPrivateMetadata Server Action.>
 
 ```ts
-// app/signup/success/page.tsx
-'use client';
+export default async function SignupSuccessPage() {
 
-import { useClerk } from '@clerk/nextjs';
-import { useRouter } from 'next/navigation';
-import { useEffect } from 'react';
-import { initializeUserPrivateMetadata } from '@/app/actions/user';
+  await initializeSignupSuccessUserAsFreeTier()
 
-export default function SignupSuccessPage() {
-  const { user, isSignedIn, isUserLoaded } = useClerk();
-  const router = useRouter();
-
-  useEffect(() => {
-    if (isUserLoaded && isSignedIn && user?.id) {
-      const initialPrivateMetadata = {
-        onboarding_completed: false,
-        preferences: [],
-        // ... your initial private metadata
-      };
-      initializeUserPrivateMetadata(user.id, initialPrivateMetadata);
-      router.push('/dashboard'); // Optionally redirect again after setting metadata
-    } else if (isUserLoaded && !isSignedIn) {
-      router.push('/sign-in'); // Handle potential edge cases
-    }
-  }, [isUserLoaded, isSignedIn, user?.id, router]);
-
-  return <p>Processing your signup...</p>; // Optional loading message
+  return <p>Signup is success , you can start your free tier</p>;
 }
+
 ```
 
 <h3>do i need clerk role or use privateData\publicData role property</h3>
@@ -158,6 +137,19 @@ Not registerd will give null user so no need for user because here user must be 
     <li>...</li>
    
 </ul>
+
+<h2>open issues</h2>
+<ul>
+    <li>i am not navigating to /signup/success on click on button signup even though i have CLERK_SIGN_UP_REDIRECT_URL=/signup/success in .env.local. however, using the prop forceRedirectUrl is working on SignUpButton</li>
+</ul>
+
+
+<h2>Future</h2>
+<ul>
+    <li>currently Admin tab is shown for evry one - it should be shown onlt for admin</li>
+    <li>currently restricted tabs is shown for evry one - it should be shown onlt for logged in</li>
+</ul>
+
 
 <h2>References</h2>
 <ol>

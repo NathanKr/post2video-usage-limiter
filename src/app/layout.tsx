@@ -10,6 +10,7 @@ import {
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Link from "next/link";
+import { PageUrl } from "@/logic/enums";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -37,19 +38,18 @@ export default function RootLayout({
         <body
           className={`${geistSans.variable} ${geistMono.variable} antialiased`}
         >
-          {/* <header className="flex justify-end items-center p-4 gap-4 h-16"> */}
           <header style={{display:'flex' , gap:'10px'}}>
             <SignedOut>
               <SignInButton />
-              <SignUpButton />
+              <SignUpButton forceRedirectUrl={PageUrl.SignUpSuccess}/>
             </SignedOut>
             <SignedIn>
               <UserButton />
             </SignedIn>
-            <Link href='/user-profile'>UserProfile</Link>
-            <Link href='/page-not-restricted'>PageNotRestricted</Link>
-            <Link href='/user-data'>UserData</Link>
-            <Link href='/admin'>Admin</Link>
+            <Link href={PageUrl.UserProfile}>UserProfile</Link>
+            <Link href={PageUrl.PageNotRestricted}>PageNotRestricted</Link>
+            <Link href={PageUrl.UserData}>UserData</Link>
+            <Link href={PageUrl.Admin}>Admin</Link>
           </header>
           {children}
         </body>
