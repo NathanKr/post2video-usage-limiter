@@ -154,8 +154,7 @@ Not registerd will give null user so no need for user because here user must be 
 
 <h2>Points of Interest</h2>
 <ul>
-    <li>...</li>
-   
+    <li>the design of the roles \ permission is nice because i am able to complete it fully on the server side via middleware.ts and layout.tsx which is server component</li>
 </ul>
 
 <h2>open issues</h2>
