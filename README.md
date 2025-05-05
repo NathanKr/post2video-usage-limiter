@@ -1,7 +1,4 @@
 <h1>todo</h1>
-- add admin page and navigate by role (static)
-- add free tier page and navigate by role (dynamic)
-- do i need UserData page
 - do not allow call function if consume more than allowed
 
 <h1>Project Name</h1>
@@ -76,52 +73,35 @@ but protected with middleware
 
 <h3>create user private metadata after success signup</h3>
 options :
-- webhooks - after event user.created
-- after signup page
-- userId exist but data is null - so first time you see it create user private data
+<ul>
+<li> webhooks - after event user.created</li>
+<li> after signup page - redirect to specific page</li>
+<li> userId exist but data is null - so first time you see it create user private data</li>
+</ul>
 
 seems that after signup page is good to start because its simple and i have the cotext of new user
 
 <h3>after signup page</h3>
 <h4>Q how to navigate to it</h4>
-add env variable i
 
-CLERK_SIGN_UP_FORCE_REDIRECT_URL=/signup/success
+add props
+
+```tsx
+<SignUpButton forceRedirectUrl={PageUrl.SignUpSuccess}/>
+```
 
 <h4>Q how to implement it</h4
 
     Create a new page in your app directory (e.g., app/signup/success/page.tsx).
     Within this page, implement the client-side component (AfterSignupHandler) that uses the useClerk() hook and the useEffect to check for isSignedIn and isUserLoaded and then trigger your initializeUserPrivateMetadata Server Action.>
 
-```ts
-export default async function SignupSuccessPage() {
-
-  await initializeSignupSuccessUserAsFreeTier()
-
-  return <p>Signup is success , you can start your free tier</p>;
-}
-
-```
 
 <h3>do i need clerk role or use privateData\publicData role property</h3>
 roles seems way too complicated for me because in clerk role has permission but i dont need permissions just role name : admin , free-tier, .... so i think that role member in private data is enough
 
-<h3>use withAuth HOC</h3>
-by default it allow nothing so you must provide role with it
+<h3>can i protect pages via midleware only</h3>
+seems so via clerkMiddleware
 
-Q : how about higher order component withAuth and you pass the role it allowed and you wrap on each page. this is very nice design isnt it
-
-A : Yes, using a Higher-Order Component (HOC) like withAuth to wrap your Next.js pages and enforce role-based access control is indeed a very nice and often preferred design pattern! It promotes code reusability, keeps your page components cleaner, and makes your authentication and authorization logic more centralized.
-
-Why this is a nice design:
-
-<ul>
-  <li><strong>Code Reusability:</strong> You define the authentication and authorization logic once in the <code>withAuth</code> HOC and then reuse it across multiple pages. This avoids repeating the same checks in every page component.</li>
-  <li><strong>Cleaner Page Components:</strong> Your actual page components can focus on their core functionality and rendering logic without being cluttered with authentication and authorization boilerplate.</li>
-  <li><strong>Centralized Control:</strong> All your access control rules are managed in one place (within the <code>withAuth</code> HOC), making it easier to understand, update, and maintain your application's security policies.</li>
-  <li><strong>Improved Readability:</strong> Wrapping a page with <code>withAuth(allowedRoles)</code> clearly indicates the access requirements for that page at a glance.</li>
-  <li><strong>Consistency:</strong> It ensures a consistent approach to authentication and authorization across your application.</li>
-</ul>
 
 <h3>page level resource</h3>
 can resource i am protecting be on page level ?
@@ -136,11 +116,13 @@ Think of it this way:
 <h3>choose roles</h3>
 Q : user can be in one of these state : admin , not registred ,registred (free tier,free tier expired , payed program , payed program expired) does every state is a role
 
-A : Yes, I've identified three primary roles based on the fundamental levels of access and responsibilities:
+A : not neceseraly, I've identified three primary roles based on the fundamental levels of access and responsibilities:
 
-    Admin: Full control and management capabilities.
-    Free Tier: Basic access and permissions granted to registered users without a paid subscription.
-    Paid Tier: Enhanced access and permissions associated with users who have a paid subscription.
+<ul>
+    <li>Admin: Full control and management capabilities</li>
+    <li>Free Tier: Basic access and permissions granted to registered users without a paid subscription</li>
+    <li>Paid Tier: Enhanced access and permissions associated with users who have a paid subscription.
+</ul>
 
 Then, for the states like "free tier expired" and "paid program expired," we'd use user metadata within Clerk to track those temporary statuses. Your application logic would then consider both the user's role and their metadata to determine their current level of access and the features available to them.
 
@@ -148,6 +130,97 @@ Not registerd will give null user so no need for user because here user must be 
 
 <h2>Code Structure</h2>
 ....
+
+<h3>clerkMiddleware</h3>
+
+clerkMiddleware is used to protect pages it is perfectly situated between the client and the server
+
+```ts
+const isPublicRoute = createRouteMatcher([
+  PageUrl.Home,
+  PageUrl.PageNotRestricted,
+]);
+const isAdminRoute = createRouteMatcher([PageUrl.Admin]);
+
+export default clerkMiddleware(async (auth, req) => {
+  if (!isPublicRoute(req)) {
+    await auth.protect(); // -- if not login redirect to sign in otherwise contine
+
+    // --- come here means user is logged in
+    const { userId } = await auth();
+    const client = await clerkClient();
+
+    if (isAdminRoute(req)) {
+      const user = await client.users.getUser(userId!); // userId can not be null after auth.protect()
+      if (!isAdmin(user)) {
+        return NextResponse.redirect(new URL("/403", req.url));
+      }
+    }
+  }
+});
+
+export const config = {
+  matcher: [
+    // Skip Next.js internals and all static files, unless found in search params
+    "/((?!_next|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)",
+    // Always run for API routes
+    "/(api|trpc)(.*)",
+  ],
+};
+```
+
+<h3>RootLayout</h3>
+
+RootLayout is server component !!!
+
+```tsx
+
+export default async function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
+
+  const user = await currentUser();
+
+  return (
+    <ClerkProvider>
+      <html lang="en">
+        <body
+          className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        >
+          <header style={{display:'flex' , gap:'10px'}}>
+            <SignedOut>
+              <SignInButton />
+              <SignUpButton forceRedirectUrl={PageUrl.SignUpSuccess}/>
+            </SignedOut>
+            <SignedIn>
+              <UserButton />
+            </SignedIn>
+            {user && <Link href={PageUrl.UserProfile}>UserProfile</Link>}
+            <Link href={PageUrl.PageNotRestricted}>PageNotRestricted</Link>
+            {user && <Link href={PageUrl.UserData}>UserData</Link>}
+            {user && isAdmin(user) && <Link href={PageUrl.Admin}>Admin</Link>}
+          </header>
+          {children}
+        </body>
+      </html>
+    </ClerkProvider>
+  );
+}
+```
+
+<h3>SignupSuccessPage</h3>
+
+```tsx
+export default async function SignupSuccessPage() {
+
+  await initializeSignupSuccessUserAsFreeTier()
+
+  return <p>Signup is success , you can start your free tier</p>;
+}
+```
+
 
 <h2>Demo</h2>
 ....
