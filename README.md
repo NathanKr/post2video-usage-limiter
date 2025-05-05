@@ -27,7 +27,10 @@ follow this image <img src='./figs/create-admin-role-from-dashboard.png'/>
 ....
 
 <h2>Technologies Used</h2>
-....
+<ul>
+<li>clerk</li>
+<li>next.js app router</li>
+</ul>
 
 <h2>Design</h2>
 questions
@@ -51,7 +54,7 @@ In summary:
 
 More questions
 
-<h3>how to not shown restricted tabs - e.g. admin</h3>
+<h3>how to not show restricted tabs - e.g. admin</h3>
 done with static layout.tsx becaus new login will cause redirect to page and re-render layout
 
 ```tsx
@@ -79,7 +82,7 @@ options :
 <li> userId exist but data is null - so first time you see it create user private data</li>
 </ul>
 
-seems that after signup page (SignupSuccessPage) is good to start because its simple and i have the context of new user
+seems that after signup page (SignupSuccessPage) is a good start because its simple and i have the context of new user
 
 <h3>after signup page</h3>
 <h4>Q how to navigate to it</h4>
@@ -92,8 +95,8 @@ add props
 
 <h4>Q how to implement it</h4
 
-    Create a new page in your app directory (e.g., app/signup/success/page.tsx).
-    Within this page, implement the client-side component (AfterSignupHandler) that uses the useClerk() hook and the useEffect to check for isSignedIn and isUserLoaded and then trigger your initializeUserPrivateMetadata Server Action.>
+Create a new page in your app directory (e.g., app/signup/success/page.tsx).
+Within this page, implement the client-side component (AfterSignupHandler) that uses the useClerk() hook and the useEffect to check for isSignedIn and isUserLoaded and then trigger your initializeUserPrivateMetadata Server Action.>
 
 
 <h3>do i need clerk role or use privateData\publicData role property</h3>
@@ -108,10 +111,10 @@ can resource i am protecting be on page level ?
 
 Yes, absolutely! When we talk about protecting "resources" with role-based access control (RBAC), a page in your Next.js application is a very common and fundamental type of resource that you'll want to secure.
 
-Think of it this way:
+Think of it this way:`
 
-    Resource: Anything in your application that you want to control access to. This can be data, functionality, or specific parts of the user interface.
-    Page: A specific URL or view in your web application
+Resource: Anything in your application that you want to control access to. This can be data, functionality, or specific parts of the user interface.
+Page: A specific URL or view in your web application
 
 <h3>choose roles</h3>
 Q : user can be in one of these state : admin , not registred ,registred (free tier,free tier expired , payed program , payed program expired) does every state is a role
