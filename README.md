@@ -79,7 +79,7 @@ options :
 <li> userId exist but data is null - so first time you see it create user private data</li>
 </ul>
 
-seems that after signup page is good to start because its simple and i have the cotext of new user
+seems that after signup page (SignupSuccessPage) is good to start because its simple and i have the context of new user
 
 <h3>after signup page</h3>
 <h4>Q how to navigate to it</h4>
@@ -223,7 +223,34 @@ export default async function SignupSuccessPage() {
 
 
 <h2>Demo</h2>
-....
+
+<h3>user not logged in</h3>
+Only Home and PageNotRestricted tabs are shown. 
+Sign in and Sign up buttons are shown so he can authenticated 
+
+<img src='./figs/demo-user-not-login.png'/>
+
+
+<h3>non admin user logged in</h3>
+Tabs UserProfile and UserData are shown
+The user can sign out by click on the red circled image
+<img src='./figs/demo-non-admin-user-login.png'/>
+
+
+<h3>admin user logged in</h3>
+Tab Admin is shown on top of regular logged in user
+
+<img src='.//figs/demo-admin-user-login.png'/>
+
+<h3>non admin user try admin page</h3>
+
+altough not shown may be he guess the admin url
+
+<img src='./figs/demo-non-admin-try-to-access-admin-page.png'/>
+
+The url pass via the midleware which navigate it to 403 page
+
+<img src='./figs//demo-non-admin-403.png'/>
 
 <h2>Points of Interest</h2>
 <ul>
