@@ -54,6 +54,26 @@ In summary:
 
 More questions
 
+<h3>how to not shown restricted tabs - e.g. admin</h3>
+done with static layout.tsx becaus new login will cause redirect to page and re-render layout
+
+```tsx
+{user && isAdmin(user) && <Link href={PageUrl.Admin}>Admin</Link>}
+```
+
+but protected with middleware
+
+```ts
+    if (isAdminRoute(req)) {
+      const user = await client.users.getUser(userId!);
+      if (!isAdmin(user)) {
+        return NextResponse.redirect(new URL("/403", req.url));
+      }
+    }
+
+```
+
+
 <h3>create user private metadata after success signup</h3>
 options :
 - webhooks - after event user.created
@@ -141,13 +161,6 @@ Not registerd will give null user so no need for user because here user must be 
 <h2>open issues</h2>
 <ul>
     <li>i am not navigating to /signup/success on click on button signup even though i have CLERK_SIGN_UP_REDIRECT_URL=/signup/success in .env.local. however, using the prop forceRedirectUrl is working on SignUpButton</li>
-</ul>
-
-
-<h2>Future</h2>
-<ul>
-    <li>currently Admin tab is shown for evry one - it should be shown onlt for admin</li>
-    <li>currently restricted tabs is shown for evry one - it should be shown onlt for logged in</li>
 </ul>
 
 

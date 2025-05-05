@@ -3,14 +3,23 @@ import { roleSchema } from "./zod-schemas";
 import { IPrivateUserData, Role } from "@/types/types";
 import { setPrivateMetadata } from "./clerk-user-data-utils";
 
-export function isAdmin(user: User): boolean {
+function checkUserRole(user: User, targetRole: Role): boolean {
   try {
     const { role } = roleSchema.parse(user.privateMetadata);
-    return role == Role.admin;
+    return role === targetRole;
   } catch (err) {
-    console.error(err)
+    console.error(err);
     return false;
   }
+}
+
+export function isAdmin(user: User): boolean {
+  return checkUserRole(user, Role.admin);
+}
+
+
+export function isFreeTierUser(user: User): boolean {
+  return checkUserRole(user, Role.freeTier);
 }
 
 export async function initializeSignupSuccessUserAsFreeTier () : Promise<void>{
