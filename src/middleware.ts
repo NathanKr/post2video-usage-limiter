@@ -5,7 +5,7 @@ import {
 } from "@clerk/nextjs/server";
 import { isAdmin } from "./logic/clerk-user-data-helper-utils";
 import { NextResponse } from "next/server";
-import { PageUrl } from "./logic/enums";
+import { PageUrl } from "./types/enums";
 
 const isPublicRoute = createRouteMatcher([
   PageUrl.Home,

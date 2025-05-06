@@ -10,7 +10,7 @@ import {
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Link from "next/link";
-import { PageUrl } from "@/logic/enums";
+import { PageUrl } from "@/types/enums";
 import { currentUser } from "@clerk/nextjs/server";
 import { isAdmin } from "@/logic/clerk-user-data-helper-utils";
 
@@ -34,7 +34,6 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-
   const user = await currentUser();
 
   return (
@@ -43,10 +42,10 @@ export default async function RootLayout({
         <body
           className={`${geistSans.variable} ${geistMono.variable} antialiased`}
         >
-          <header style={{display:'flex' , gap:'10px'}}>
+          <header style={{ display: "flex", gap: "10px" }}>
             <SignedOut>
               <SignInButton />
-              <SignUpButton forceRedirectUrl={PageUrl.SignUpSuccess}/>
+              <SignUpButton forceRedirectUrl={PageUrl.SignUpSuccess} />
             </SignedOut>
             <SignedIn>
               <UserButton />
