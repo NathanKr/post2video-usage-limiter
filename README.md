@@ -1,3 +1,6 @@
+<h1>todo</h1>
+- make api use USER as argument !!!!!!!!!! to save caling api
+- code not nice e.g. in middleware
 
 <h1>Project Name</h1>
 ....
@@ -5,7 +8,7 @@
 <h2>Project Description</h2>
 ....
 
-<h2>Motivation</h2>npm run 
+<h2>Motivation</h2> 
 in post2video (next.js app router project) i have open ai key which is share by all users. currently i am working on the free tier and i want to allow each user on the free tier to have up to 6 video upload to youtube and consume no more than 20 cents (later there will be payed tier so things will be more complex) 
 
 I all ready manage users with clerk (clerkMiddleware , privateData) and i have two roles defined
@@ -40,12 +43,26 @@ and <a href='#ref2'>[2]</a> for creating the admin role in the clerk dashboard
 </ul>
 
 <h2>Design</h2>
-questions
-
-<h3>how to notify on usage end</h3>
-navigate to new page ?
+**** Constraints
+- using clerk api in free tier is limited check <a href='https://clerk.com/docs/backend-requests/resources/rate-limits'>rate-limit</a> including currentUser  
 
 
+**** Questions
+
+<h3>where to check usage exceed limit</h3>
+two options
+- before navigate to page - seems better with role granularity but can be gatekeeper
+- before invoke function relevant function - seem the best place
+
+<h3>how to notify on usage exceed limit</h3>
+two options
+- navigate to new page "Usage Limit Exceeded"
+- toast inline
+
+once user exceed limit he can not continue in the page so best solutiuon is navigate to new page. also there you can suggest him to buy credit 
+
+<h3>usage limiter test</h3>
+usage limiter is super critical module - automatic test is required with 100% module test coverage
 
 <h2>Code Structure</h2>
 ....

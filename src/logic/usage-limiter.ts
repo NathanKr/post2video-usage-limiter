@@ -49,7 +49,7 @@ export const canUseCredit = async (): Promise<boolean> => {
 };
 
 export const canUploadYoutubeVideo = async (): Promise<boolean> => {
-  ~const privateData = await getPrivateMetadata();
+  const privateData = await getPrivateMetadata();
 
   if (!privateData) return false;
 

@@ -1,7 +1,8 @@
 import { User } from "@clerk/nextjs/server";
 import { roleSchema } from "./zod-schemas";
-import { IPrivateUserData, Role } from "@/types/types";
+import { IPrivateUserData} from "@/types/types";
 import { setPrivateMetadata } from "./clerk-user-data-utils";
+import { Role } from "@/types/enums";
 
 function checkUserRole(user: User, targetRole: Role): boolean {
   try {

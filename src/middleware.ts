@@ -6,6 +6,7 @@ import {
 import { isAdmin } from "./logic/clerk-user-data-helper-utils";
 import { NextResponse } from "next/server";
 import { PageUrl } from "./types/enums";
+import { hasUsagePermission } from "./logic/permissions-utils";
 
 const isPublicRoute = createRouteMatcher([
   PageUrl.Home,
@@ -21,10 +22,28 @@ export default clerkMiddleware(async (auth, req) => {
     const { userId } = await auth();
     const client = await clerkClient();
 
+    const isUploadYoutubeVideo = createRouteMatcher([
+      PageUrl.UploadYoutubeVideo,
+    ]);
+    const isUseCredit = createRouteMatcher([PageUrl.UseCredit]);
+
+    let pageNeedUsagePermission = null;
+    if (isUploadYoutubeVideo(req)) {
+      pageNeedUsagePermission = PageUrl.UploadYoutubeVideo;
+    } else if (isUseCredit(req)) {
+      pageNeedUsagePermission = PageUrl.UseCredit;
+    }
+
+    if (pageNeedUsagePermission && !hasUsagePermission(pageNeedUsagePermission)) {
+      return NextResponse.redirect(
+        new URL(PageUrl.UsageLimitExceeded, req.url)
+      );
+    }
+
     if (isAdminRoute(req)) {
       const user = await client.users.getUser(userId!); // userId can not be null after auth.protect()
       if (!isAdmin(user)) {
-        return NextResponse.redirect(new URL("/403", req.url));
+        return NextResponse.redirect(new URL(PageUrl.ForbiddenPage, req.url));
       }
     }
   }
