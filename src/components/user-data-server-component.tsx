@@ -1,14 +1,14 @@
 import {
   getPrivateMetadata,
-  getUser,
 } from "@/logic/clerk-user-data-utils";
+import { currentUser } from "@clerk/nextjs/server";
 
 export default async function UserDataServerComponent() {
-  const user = await getUser();
+  const user = await currentUser();
 
   if (!user) return <p>user is empty</p>;
 
-  const privateMetadata = await getPrivateMetadata();
+  const privateMetadata = await getPrivateMetadata(user);
 
   return (
     <div>

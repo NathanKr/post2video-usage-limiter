@@ -22,6 +22,8 @@ export default clerkMiddleware(async (auth, req) => {
     const { userId } = await auth();
     const client = await clerkClient();
 
+    const user = await client.users.getUser(userId!); // userId can not be null after auth.protect()
+
     const isUploadYoutubeVideo = createRouteMatcher([
       PageUrl.UploadYoutubeVideo,
     ]);
@@ -34,14 +36,16 @@ export default clerkMiddleware(async (auth, req) => {
       pageNeedUsagePermission = PageUrl.UseCredit;
     }
 
-    if (pageNeedUsagePermission && !hasUsagePermission(pageNeedUsagePermission)) {
+    if (
+      pageNeedUsagePermission &&
+      !hasUsagePermission(user, pageNeedUsagePermission)
+    ) {
       return NextResponse.redirect(
         new URL(PageUrl.UsageLimitExceeded, req.url)
       );
     }
 
     if (isAdminRoute(req)) {
-      const user = await client.users.getUser(userId!); // userId can not be null after auth.protect()
       if (!isAdmin(user)) {
         return NextResponse.redirect(new URL(PageUrl.ForbiddenPage, req.url));
       }

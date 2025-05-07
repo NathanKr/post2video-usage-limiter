@@ -35,6 +35,7 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   const user = await currentUser();
+  console.log(`currentUser() is invoked`)
 
   return (
     <ClerkProvider>
@@ -50,9 +51,11 @@ export default async function RootLayout({
             <SignedIn>
               <UserButton />
             </SignedIn>
-            {user && <Link href={PageUrl.UserProfile}>UserProfile</Link>}
             <Link href={PageUrl.PageNotRestricted}>PageNotRestricted</Link>
+            {user && <Link href={PageUrl.UserProfile}>UserProfile</Link>}
             {user && <Link href={PageUrl.UserData}>UserData</Link>}
+            {user && <Link href={PageUrl.UploadYoutubeVideo}>UploadYoutubeVideo</Link>}
+            {user && <Link href={PageUrl.UseCredit}>UseCredit</Link>}
             {user && isAdmin(user) && <Link href={PageUrl.Admin}>Admin</Link>}
           </header>
           {children}

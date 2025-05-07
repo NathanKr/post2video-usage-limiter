@@ -1,5 +1,5 @@
 import { IPrivateUserData } from "@/types/types";
-import { auth, clerkClient, currentUser, User } from "@clerk/nextjs/server";
+import { auth, clerkClient,  User } from "@clerk/nextjs/server";
 import { privateUserDataSchema } from "./zod-schemas";
 
 export async function setPrivateMetadata(
@@ -19,12 +19,12 @@ export async function setPrivateMetadata(
   });
 }
 
-export async function getPrivateMetadata(): Promise<IPrivateUserData | null> {
-  const user = await getUser();
+export async function getPrivateMetadata(user : User): Promise<IPrivateUserData | null> {
+  // const user = await getUser();
 
-  if (!user) {
-    throw new Error("user does not exist - you need to sign in");
-  }
+  // if (!user) {
+  //   throw new Error("user does not exist - you need to sign in");
+  // }
 
   if (!user.privateMetadata) {
     return null;
@@ -35,14 +35,17 @@ export async function getPrivateMetadata(): Promise<IPrivateUserData | null> {
   return privateData;
 }
 
-export async function getUser(): Promise<User | null> {
-  const { userId } = await auth();
+// export async function getUser(): Promise<User | null> {
 
-  if (!userId) {
-    throw new Error("userId does not exist - you need to sign in");
-  }
+//   const { userId } = await auth();
 
-  const user = await currentUser();
+//   if (!userId) {
+//     throw new Error("userId does not exist - you need to sign in");
+//   }
 
-  return user;
-}
+//   const user = await currentUser();
+//   console.log(`currentUser() is invoked`)
+
+
+//   return user;
+// }

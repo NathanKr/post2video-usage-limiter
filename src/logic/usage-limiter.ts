@@ -1,3 +1,4 @@
+import { User } from "@clerk/nextjs/server";
 import {
   getPrivateMetadata,
   setPrivateMetadata,
@@ -9,9 +10,10 @@ import { MAX_CREDIT_CENTS, MAX_UPLOADS } from "./constants";
  * @param youtubeVideosUploaded
  */
 export async function updateYoutubeVideosUploaded(
+  user: User,
   youtubeVideosUploaded: number
 ): Promise<void> {
-  const privateUserData = await getPrivateMetadata();
+  const privateUserData = await getPrivateMetadata(user);
 
   if (!privateUserData) {
     throw new Error("Unexpected empty privateData");
@@ -27,9 +29,10 @@ export async function updateYoutubeVideosUploaded(
  * @param creditConsumedCents
  */
 export async function updateCreditConsumedCents(
+  user: User,
   creditConsumedCents: number
 ): Promise<void> {
-  const privateUserData = await getPrivateMetadata();
+  const privateUserData = await getPrivateMetadata(user);
 
   if (!privateUserData) {
     throw new Error("Unexpected empty privateData");
@@ -40,30 +43,42 @@ export async function updateCreditConsumedCents(
   await setPrivateMetadata(privateUserData);
 }
 
-export const canUseCredit = async (): Promise<boolean> => {
-  const privateData = await getPrivateMetadata();
+export const canUseCredit = async (user: User,): Promise<boolean> => {
+  const privateData = await getPrivateMetadata(user);
 
   if (!privateData) return false;
 
-  return privateData.creditConsumedCents < MAX_CREDIT_CENTS;
+  const {creditConsumedCents} = privateData
+
+  const res = creditConsumedCents < MAX_CREDIT_CENTS;
+  console.log(
+    `canUseCredit . res : ${res} , creditConsumedCents : ${creditConsumedCents} , MAX_CREDIT_CENTS : ${MAX_CREDIT_CENTS}  `
+  );
+
+  return res;
 };
 
-export const canUploadYoutubeVideo = async (): Promise<boolean> => {
-  const privateData = await getPrivateMetadata();
+export const canUploadYoutubeVideo = async (user: User,): Promise<boolean> => {
+  const privateData = await getPrivateMetadata(user);
 
   if (!privateData) return false;
 
-  return privateData.youtubeVideosUploaded < MAX_UPLOADS;
+  const {youtubeVideosUploaded} = privateData
+  const res = youtubeVideosUploaded < MAX_UPLOADS;
+  console.log(
+    `canUploadYoutubeVideo . res : ${res} , youtubeVideosUploaded : ${youtubeVideosUploaded} , MAX_UPLOADS : ${MAX_UPLOADS}  `
+  );
+  return res;
 };
 
-export const incrementCostByAmount = async (amount: number): Promise<void> => {
-  const hasCredit = await canUseCredit();
+export const incrementCostByAmount = async (user: User,amount: number): Promise<void> => {
+  const hasCredit = await canUseCredit(user);
 
   if (!hasCredit) {
     throw new Error("credit usage exceeded");
   }
 
-  const privateData = await getPrivateMetadata();
+  const privateData = await getPrivateMetadata(user);
 
   if (!privateData) {
     throw new Error("Can not increment for empty privateData ");
@@ -74,14 +89,14 @@ export const incrementCostByAmount = async (amount: number): Promise<void> => {
   await setPrivateMetadata(privateData);
 };
 
-export const incrementUploadByOne = async (): Promise<void> => {
-  const canUpload = await canUploadYoutubeVideo();
+export const incrementUploadByOne = async (user: User): Promise<void> => {
+  const canUpload = await canUploadYoutubeVideo(user);
 
   if (!canUpload) {
     throw new Error("upload video is not allowed - usage exceeded");
   }
 
-  const privateData = await getPrivateMetadata();
+  const privateData = await getPrivateMetadata(user);
 
   if (!privateData) {
     throw new Error("Can not increment for empty privateData ");
@@ -91,4 +106,3 @@ export const incrementUploadByOne = async (): Promise<void> => {
 
   await setPrivateMetadata(privateData);
 };
-

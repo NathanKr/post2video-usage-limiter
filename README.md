@@ -1,5 +1,4 @@
 <h1>todo</h1>
-- make api use USER as argument !!!!!!!!!! to save caling api
 - code not nice e.g. in middleware
 
 <h1>Project Name</h1>
