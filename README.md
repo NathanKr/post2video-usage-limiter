@@ -169,7 +169,7 @@ npm run dev
 
 <h4>Usage limiter test</h4>
 <p>
-  The usage limiter is a super critical module, and therefore, automatic testing
+  The usage limiter <code>usage-limiter.ts</code> is a super critical module, and therefore, automatic testing
   is required with 100% module test coverage. <strong>Note: These tests are
   not implemented in this initial project description but should be a
   prerequisite before deploying to production.</strong>
