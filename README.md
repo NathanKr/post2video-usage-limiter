@@ -130,12 +130,12 @@ npm run dev
 <h4>Where to check usage exceed limit</h4>
 <ul>
   <li>
-    <strong>Before navigating to a page:</strong> Seems better for enforcing
+    <strong>Before navigating to a page - middleware:</strong> Seems better for enforcing
     limits based on user roles but could act as a gatekeeper, potentially
     blocking access prematurely.
   </li>
   <li>
-    <strong>Before invoking a relevant function:</strong> Seems like the most
+    <strong>Before invoking a relevant function - client</strong> Seems like the most
     precise and appropriate place to check usage when consumed on the client.
   </li>
 </ul>
