@@ -1,11 +1,7 @@
-<h1>todo</h1>
-- code not nice e.g. in middleware
-- api rate limit (<a href='https://clerk.com/docs/backend-requests/resources/rate-limits'>docs</a>) in network tab 
-<ul>
- <li>how to read it</li>
- <li>does /v1 is part of api</li>
- <li>is it active on development</li>
-</ul>
+<h1>tido</h1>
+need to go over the readme
+go section by section with gemini
+go over with chatgpt
 
 <h1>Project Name</h1>
 Usage limiter for Post2Youtube

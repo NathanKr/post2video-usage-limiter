@@ -12,7 +12,6 @@ const isPublicRoute = createRouteMatcher([
   PageUrl.Home,
   PageUrl.PageNotRestricted,
 ]);
-const isAdminRoute = createRouteMatcher([PageUrl.Admin]);
 
 export default clerkMiddleware(async (auth, req) => {
   if (!isPublicRoute(req)) {
@@ -44,6 +43,8 @@ export default clerkMiddleware(async (auth, req) => {
         new URL(PageUrl.UsageLimitExceeded, req.url)
       );
     }
+
+    const isAdminRoute = createRouteMatcher([PageUrl.Admin]);
 
     if (isAdminRoute(req)) {
       if (!isAdmin(user)) {
