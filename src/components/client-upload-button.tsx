@@ -1,19 +1,22 @@
-'use client';
+"use client";
 
-import { useRouter } from 'next/navigation';
-import { actionIncrementUploadByOne } from "@/actions/usage-limiter-actions";
+import { useRouter } from "next/navigation";
+import {
+  actionCanUploadYoutubeVideo,
+  actionIncrementUploadByOne,
+} from "@/actions/usage-limiter-actions";
 import { PageUrl } from "@/types/enums";
-import { FC } from 'react';
+import { useState } from "react";
 
-interface IProps{
-  canUpload : boolean
-}
-
-const ClientUploadButton : FC<IProps>= ({ canUpload })=> {
+const ClientUploadButton =  () => {
+  const [canUpload, setCanUpload] = useState(true); //can be improved bycorrect one
   const router = useRouter();
 
   const clickHandler = async () => {
-    if (!canUpload) {
+    const uploadAllowed = await actionCanUploadYoutubeVideo();
+    setCanUpload(uploadAllowed);
+
+    if (!uploadAllowed) {
       router.push(PageUrl.UsageLimitExceeded);
       return;
     }
@@ -23,10 +26,9 @@ const ClientUploadButton : FC<IProps>= ({ canUpload })=> {
 
   return (
     <button onClick={clickHandler} disabled={!canUpload}>
-      {canUpload ? 'Simulate Upload Video' : 'Upload Limit Reached'}
+      {canUpload ? "Simulate Upload Video" : "Upload Limit Reached"}
     </button>
   );
-}
-
+};
 
 export default ClientUploadButton;

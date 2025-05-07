@@ -1,6 +1,11 @@
 <h1>todo</h1>
 - code not nice e.g. in middleware
-- api rate limit (<a href='https://clerk.com/docs/backend-requests/resources/rate-limits'>docs</a>) in network tab - how to get it ,does /v1 ispart of api
+- api rate limit (<a href='https://clerk.com/docs/backend-requests/resources/rate-limits'>docs</a>) in network tab 
+<ul>
+ <li>how to read it</li>
+ <li>does /v1 is part of api</li>
+ <li>is it active on development</li>
+</ul>
 
 <h1>Project Name</h1>
 ....
@@ -44,7 +49,7 @@ and <a href='#ref2'>[2]</a> for creating the admin role in the clerk dashboard
 
 <h2>Design</h2>
 **** Tradeoffs
-in <a href='#ref2'>[2]</a> i have pointed that the layout.tsx is a server component and this help me securing easyly tabs.
+in <a href='#ref2'>[2]</a> i have pointed that the layout.tsx is a server component and this help me securing easyly tabs and it has better performance because done on server.
 However, every page is using it so every page must be server component. 
 What happen if you need to handle user event ? extract the code to client component and use in the server component
 

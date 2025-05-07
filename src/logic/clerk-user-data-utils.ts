@@ -20,11 +20,6 @@ export async function setPrivateMetadata(
 }
 
 export async function getPrivateMetadata(user : User): Promise<IPrivateUserData | null> {
-  // const user = await getUser();
-
-  // if (!user) {
-  //   throw new Error("user does not exist - you need to sign in");
-  // }
 
   if (!user.privateMetadata) {
     return null;
@@ -34,18 +29,3 @@ export async function getPrivateMetadata(user : User): Promise<IPrivateUserData 
 
   return privateData;
 }
-
-// export async function getUser(): Promise<User | null> {
-
-//   const { userId } = await auth();
-
-//   if (!userId) {
-//     throw new Error("userId does not exist - you need to sign in");
-//   }
-
-//   const user = await currentUser();
-//   console.log(`currentUser() is invoked`)
-
-
-//   return user;
-// }

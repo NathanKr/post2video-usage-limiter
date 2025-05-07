@@ -38,7 +38,7 @@ export default clerkMiddleware(async (auth, req) => {
 
     if (
       pageNeedUsagePermission &&
-      !hasUsagePermission(user, pageNeedUsagePermission)
+      !(await hasUsagePermission(user, pageNeedUsagePermission))
     ) {
       return NextResponse.redirect(
         new URL(PageUrl.UsageLimitExceeded, req.url)
