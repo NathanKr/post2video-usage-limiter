@@ -8,10 +8,18 @@
 </ul>
 
 <h1>Project Name</h1>
-....
+Usage limiter for Post2Youtube
 
 <h2>Project Description</h2>
-i am not using open ai api here because you need api key and not everybody have it. But to feel the design i can simulate consuming credit and upload video simply by button click
+This project implements a robust usage limiter for a Next.js video upload application, leveraging Clerk for user management and enforcing credit-based limits on free-tier accounts.
+
+Features
+<ul>
+  <li>Per-user credit usage tracking</li>
+  <li>Clerk integration with roles (<code>admin</code>, <code>freeTier</code>)</li>
+  <li>Middleware enforcement for page access</li>
+  <li>Client-side handling for credit checks</li>
+</ul>
 
 
 <h2>Motivation</h2> 
@@ -49,11 +57,10 @@ npm run dev
 
 <h2>Design</h2>
 **** Tradeoffs
-in <a href='#ref2'>[2]</a> i have pointed that the layout.tsx is a server component and this help me securing easyly tabs and it has better performance because done on server.
-However, every page is using it so every page must be server component. 
-What happen if you need to handle user event ? extract the code to client component and use in the server component
 
-
+`layout.tsx` is a server component, which improves security and performance.
+However, it forces all child pages to be server components.
+Solution: extract interactivity into small client components.
 
 
 **** Constraints
@@ -194,13 +201,11 @@ click on the tab UseCredit and again you will be directed to this page because o
 
 <h2>Points of Interest</h2>
 <ul>
-    <li></li>
+    <li>This demo avoids real OpenAI API usage to keep the setup simple.
+ Instead, credit consumption is simulated via button clicks, mimicking actual API costs.</li>
 </ul>
 
-<h2>open issues</h2>
-<ul>
-    <li></li>
-</ul>
+
 
 
 <h2>References</h2>
