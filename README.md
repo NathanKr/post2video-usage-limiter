@@ -1,8 +1,3 @@
-<h1>tido</h1>
-need to go over the readme
-go section by section with gemini
-go over with chatgpt
-
 <h1>Project Name</h1>
 Implementing Usage Limits for Free-Tier Users in Next.js
 
@@ -187,9 +182,10 @@ once user exceed limit he can not continue in the page so best solutiuon is navi
 <h2>Code Structure</h2>
 
 <h3>usage-limiter.ts</h3>
-This file is the core of the logic 
+<p>This file contains <strong>crucial logic</strong> for the usage limiter. Below are examples demonstrating how credit consumption is checked and incremented.</p>
 
-Bwfore you try to consume credit you need to invoke
+<h4>Checking if credit can be consumed (Example):</h4>
+
 ```ts
 export const canConsumeCredit = async (user: User): Promise<boolean> => {
   const privateData = await getPrivateMetadata(user);
@@ -208,7 +204,7 @@ export const canConsumeCredit = async (user: User): Promise<boolean> => {
 
 ```
 
-if you can consume credit you call the follwoing
+<h4>Incrementing credit consumption (Example):</h4>
 
 ```ts
 
@@ -234,7 +230,7 @@ export const incrementCostByAmount = async (
 };
 ```
 
-<h3>midleware check permission</h3>
+<h4>Middleware check permission</h4>
 
 ```ts
 
@@ -249,7 +245,7 @@ export const incrementCostByAmount = async (
 
 ```
 
-<h3>page check permission - ClientConsumeCreditButton</h3>
+<h3>Page check permission - ClientConsumeCreditButton</h3>
 
 ```tsx
 
@@ -265,7 +261,7 @@ export const incrementCostByAmount = async (
     // Optionally, you might want to trigger a refresh or navigate elsewhere after incrementing
   };
 ```
-
+<!-- 
 <h2>Demo</h2>
 home page for regsiterd user (non admin)
 
@@ -289,20 +285,50 @@ click three more times on the button , in the forth you will be directed to page
 <img src='./figs/navigate-to-exceed-limit.png'/>
 
 click on the tab UseCredit and again you will be directed to this page because of the middleware check
+ -->
 
+
+<h2>Demo</h2>
+<p>Home page for registered user (non-admin):</p>
+<img src='./figs/home-registred-non-admin.png' alt='Home page showing the interface for a logged-in, non-admin user.'/>
+<p>Check the usage after sign up:</p>
+<img src='./figs/user-data-page-after-signup.png' alt='User data page displaying initial usage statistics after a new user signs up.'/>
+<p>Simulate consume credit by click on the button in the page UseCredit:</p>
+<img src='./figs/click-on-button-to-similate-consume-credit.png' alt='The UseCredit page with a button to simulate consuming credit.'/>
+<p>Navigate to user data:</p>
+<img src='./figs/credit-consumes-after-one-click.png' alt='User data page updated to show credit consumed after one click.'/>
+<p>
+  Click three more times on the button; on the fourth, you will be directed to
+  the "Usage Limit Exceeded" page because of the check in the
+  <code>UseCredit</code> page:
+</p>
+<img src='./figs/navigate-to-exceed-limit.png' alt='The "Usage Limit Exceeded" page, indicating the user has reached their limit.'/>
+<p>
+  Click on the "UseCredit" tab again, and you will be directed to the "Usage
+  Limit Exceeded" page again because of the middleware check.
+</p>
 
 
 <h2>Points of Interest</h2>
 <ul>
-    <li>This demo avoids real OpenAI API usage to keep the setup simple.
- Instead, credit consumption is simulated via button clicks, mimicking actual API costs.</li>
+  <li>
+    This demo avoids real OpenAI API usage to keep the setup simple. Instead,
+    credit consumption is simulated via button clicks, mimicking actual API
+    costs.
+  </li>
 </ul>
-
-
 
 
 <h2>References</h2>
 <ol>
-<li id='ref1'><a href='https://youtu.be/5zE_c5kDDDs?si=qwxnm54ILEVbTYR6'> Seamless User Management with Clerk and Next.js </a></li>
-<li id='ref2'><a href='https://youtu.be/JCnEFJbNyws?si=fSbTNLC0DcKwmUeo'> Mastering Role-Based Authorization with Clerk and Next.js </a></li>
+  <li id='ref1'>
+    <a href='https://youtu.be/5zE_c5kDDDs?si=qwxnm54ILEVbTYR6'>
+      Seamless User Management with Clerk and Next.js
+    </a>
+  </li>
+  <li id='ref2'>
+    <a href='https://youtu.be/JCnEFJbNyws?si=fSbTNLC0DcKwmUeo'>
+      Mastering Role-Based Authorization with Clerk and Next.js
+    </a>
+  </li>
 </ol>
