@@ -2,6 +2,7 @@
 Implementing Usage Limits for Free-Tier Users in Next.js
 
 
+
 <h2>Project Description</h2>
 <p>
   This project delivers a robust usage limiter for a Next.js video upload
@@ -138,12 +139,6 @@ npm run dev
   </li>
 </ul>
 
-<!-- <h4>How to notify on usage exceed limit</h4>
-two options
-- navigate to new page "Usage Limit Exceeded"
-- toast inline
-
-once user exceed limit he can not continue in the page so best solutiuon is navigate to new page. also there you can suggest him to buy credit  -->
 
 <h4>How to notify on usage exceed limit</h4>
 <ul>
@@ -261,31 +256,6 @@ export const incrementCostByAmount = async (
     // Optionally, you might want to trigger a refresh or navigate elsewhere after incrementing
   };
 ```
-<!-- 
-<h2>Demo</h2>
-home page for regsiterd user (non admin)
-
-<img src='./figs/home-registred-non-admin.png'/>
-
-check the usage after sign up
-
-<img src='./figs/user-data-page-after-signup.png'/>
-
-
-simulate consume credit by click on the button in the page UseCredit
-
-<img src='./figs/click-on-button-to-similate-consume-credit.png'/>
-
-navigate to user data
-
-<img src='./figs/credit-consumes-after-one-click.png'/>
-
-click three more times on the button , in the forth you will be directed to page Usage Limit Exceeded because of the check in the page UseCredit
-
-<img src='./figs/navigate-to-exceed-limit.png'/>
-
-click on the tab UseCredit and again you will be directed to this page because of the middleware check
- -->
 
 
 <h2>Demo</h2>
