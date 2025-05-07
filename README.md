@@ -4,7 +4,7 @@ go section by section with gemini
 go over with chatgpt
 
 <h1>Project Name</h1>
-Usage limiter for Post2Youtube
+Implementing Usage Limits for Free-Tier Users in Next.js
 
 <h2>Project Description</h2>
 This project implements a robust usage limiter for a Next.js video upload application, leveraging Clerk for user management and enforcing credit-based limits on free-tier accounts.
