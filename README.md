@@ -11,7 +11,8 @@
 ....
 
 <h2>Project Description</h2>
-....
+i am not using open ai api here because you need api key and not everybody have it. But to feel the design i can simulate consuming credit and upload video simply by button click
+
 
 <h2>Motivation</h2> 
 in post2video (next.js app router project) i have open ai key which is share by all users. currently i am working on the free tier and i want to allow each user on the free tier to have up to 6 video upload to youtube and consume no more than 20 cents (later there will be payed tier so things will be more complex) 
@@ -37,7 +38,12 @@ follow <a href='#ref1'>[1]</a> for creating the project skeleton
 and <a href='#ref2'>[2]</a> for creating the admin role in the clerk dashboard
 
 <h2>Usage</h2>
-....
+
+Run the development server
+
+```bash
+npm run dev
+```
 
 <h2>Technologies Used</h2>
 <ul>
@@ -89,7 +95,16 @@ usage limiter is super critical module - automatic test is required with 100% mo
 
 
 <h2>Demo</h2>
-.........
+home page for regsiterd user (non admin)
+
+<img src='./figs/home-registred-non-admin.png'/>
+
+check the usage after sign up
+
+<img src='./figs/user-data-page-after-signup.png'/>
+
+
+
 
 <h2>Points of Interest</h2>
 <ul>
