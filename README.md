@@ -5,7 +5,7 @@ Implementing Usage Limits for Free-Tier Users in Next.js
 
 <h2>Project Description</h2>
 <p>
-  This project delivers a robust usage limiter for a Next.js video upload
+    This project delivers a robust usage limiter for a Next.js video upload
   application, ensuring fair resource allocation for free-tier users. By
   leveraging Clerk for user management and enforcing credit-based limits, it
   effectively manages costs and maintains a positive user experience.
@@ -74,6 +74,7 @@ npm run dev
 </ul>
 
 <h2>Design</h2>
+  This section outlines the architectural decisions, tradeoffs, and usage constraints involved in building the system. 
 
 <h3>Tradeoffs</h3>
 <p>
@@ -176,6 +177,8 @@ npm run dev
 
 <h2>Code Structure</h2>
 
+Key files and logic for enforcing usage limits, including how credits are checked and incremented on both server and client.
+
 <h3>usage-limiter.ts</h3>
 <p>This file contains <strong>crucial logic</strong> for the usage limiter. Below are examples demonstrating how credit consumption is checked and incremented.</p>
 
@@ -259,6 +262,10 @@ export const incrementCostByAmount = async (
 
 
 <h2>Demo</h2>
+<p>
+  This demo illustrates how credit usage is tracked and enforced in the app, from user sign-up through credit consumption and limit enforcement via both client-side and middleware checks.
+</p>
+
 <p>Home page for registered user (non-admin):</p>
 <img src='./figs/home-registred-non-admin.png' alt='Home page showing the interface for a logged-in, non-admin user.'/>
 <p>Check the usage after sign up:</p>
