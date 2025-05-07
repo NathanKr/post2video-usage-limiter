@@ -5,65 +5,27 @@ import {
 } from "./clerk-user-data-utils";
 import { MAX_CREDIT_CENTS, MAX_UPLOADS } from "./constants";
 
-// /**
-//  * pre condition : privateUserData exist
-//  * @param youtubeVideosUploaded
-//  */
-// export async function updateYoutubeVideosUploaded(
-//   user: User,
-//   youtubeVideosUploaded: number
-// ): Promise<void> {
-//   const privateUserData = await getPrivateMetadata(user);
-
-//   if (!privateUserData) {
-//     throw new Error("Unexpected empty privateData");
-//   }
-
-//   privateUserData.youtubeVideosUploaded = youtubeVideosUploaded;
-
-//   await setPrivateMetadata(privateUserData);
-// }
-
-// /**
-//  * pre condition : privateUserData exist
-//  * @param creditConsumedCents
-//  */
-// export async function updateCreditConsumedCents(
-//   user: User,
-//   creditConsumedCents: number
-// ): Promise<void> {
-//   const privateUserData = await getPrivateMetadata(user);
-
-//   if (!privateUserData) {
-//     throw new Error("Unexpected empty privateData");
-//   }
-
-//   privateUserData.creditConsumedCents = creditConsumedCents;
-
-//   await setPrivateMetadata(privateUserData);
-// }
-
-export const canUseCredit = async (user: User,): Promise<boolean> => {
+export const canConsumeCredit = async (user: User): Promise<boolean> => {
   const privateData = await getPrivateMetadata(user);
 
   if (!privateData) return false;
 
-  const {creditConsumedCents} = privateData
+  const { creditConsumedCents } = privateData;
 
   const res = creditConsumedCents < MAX_CREDIT_CENTS;
   console.log(
-    `canUseCredit . res : ${res} , creditConsumedCents : ${creditConsumedCents} , MAX_CREDIT_CENTS : ${MAX_CREDIT_CENTS}  `
+    `canConsumeCredit . res : ${res} , creditConsumedCents : ${creditConsumedCents} , MAX_CREDIT_CENTS : ${MAX_CREDIT_CENTS}  `
   );
 
   return res;
 };
 
-export const canUploadYoutubeVideo = async (user: User,): Promise<boolean> => {
+export const canUploadYoutubeVideo = async (user: User): Promise<boolean> => {
   const privateData = await getPrivateMetadata(user);
 
   if (!privateData) return false;
 
-  const {youtubeVideosUploaded} = privateData
+  const { youtubeVideosUploaded } = privateData;
   const res = youtubeVideosUploaded < MAX_UPLOADS;
   console.log(
     `canUploadYoutubeVideo . res : ${res} , youtubeVideosUploaded : ${youtubeVideosUploaded} , MAX_UPLOADS : ${MAX_UPLOADS}  `
@@ -71,8 +33,11 @@ export const canUploadYoutubeVideo = async (user: User,): Promise<boolean> => {
   return res;
 };
 
-export const incrementCostByAmount = async (user: User,amount: number): Promise<void> => {
-  const hasCredit = await canUseCredit(user);
+export const incrementCostByAmount = async (
+  user: User,
+  amount: number
+): Promise<void> => {
+  const hasCredit = await canConsumeCredit(user);
 
   if (!hasCredit) {
     throw new Error("credit usage exceeded");

@@ -9,7 +9,7 @@ import { PageUrl } from "@/types/enums";
 import { useState } from "react";
 
 const ClientUploadButton =  () => {
-  const [canUpload, setCanUpload] = useState(true); //can be improved bycorrect one
+  const [canUpload, setCanUpload] = useState(true); //can be improved by correct one
   const router = useRouter();
 
   const clickHandler = async () => {

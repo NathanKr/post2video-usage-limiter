@@ -2,6 +2,7 @@
 
 import {
   canUploadYoutubeVideo,
+  canConsumeCredit,
   incrementCostByAmount,
   incrementUploadByOne,
 } from "@/logic/usage-limiter";
@@ -19,6 +20,12 @@ export async function actionCanUploadYoutubeVideo(): Promise<boolean> {
   const user = await getCurrentUserOrThrow();
 
   return canUploadYoutubeVideo(user);
+}
+
+export async function actionCanConsumeCredit(): Promise<boolean> {
+  const user = await getCurrentUserOrThrow();
+
+  return canConsumeCredit(user);
 }
 
 export async function actionIncrementUploadByOne(): Promise<void> {
