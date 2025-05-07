@@ -13,8 +13,8 @@ Features
 <ul>
   <li>Per-user credit usage tracking</li>
   <li>Clerk integration with roles (<code>admin</code>, <code>freeTier</code>)</li>
-  <li>Middleware enforcement for page access</li>
-  <li>Client-side handling for credit checks</li>
+  <li>Middleware enforcement for page access under usage limit : credit and video upload</li>
+  <li>Client-side handling for usage limit : credit and video upload before calling usage based API</li>
 </ul>
 
 
