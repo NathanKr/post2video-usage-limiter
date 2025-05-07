@@ -1,23 +1,24 @@
 "use client";
 
-import { useRouter } from "next/navigation";
-
-import { PageUrl } from "@/types/enums";
 import { useState } from "react";
-import { actionCanConsumeCredit, actionIncrementCostByAmount } from "@/actions/usage-limiter-actions";
+import {
+  actionCanConsumeCredit,
+  actionIncrementCostByAmount,
+} from "@/actions/usage-limiter-actions";
+import useNavigateOnUsageExceedLimit from "@/hooks/use-navigate-on-usage-exceed-limit";
 
-const CREDIT_AMOUNT = 5
+const CREDIT_AMOUNT = 5;
 
-const ClientConsumeCreditButton =  () => {
+const ClientConsumeCreditButton = () => {
   const [canConsume, setCanConsume] = useState(true); //can be improved by correct one
-  const router = useRouter();
+  const { navigateOnUsageLimitExceeded } = useNavigateOnUsageExceedLimit(); // Use the custom hook
 
   const clickHandler = async () => {
     const consumeCreditAllowed = await actionCanConsumeCredit();
     setCanConsume(consumeCreditAllowed);
 
     if (!consumeCreditAllowed) {
-      router.push(PageUrl.UsageLimitExceeded);
+      navigateOnUsageLimitExceeded();
       return;
     }
     await actionIncrementCostByAmount(CREDIT_AMOUNT);
@@ -26,7 +27,9 @@ const ClientConsumeCreditButton =  () => {
 
   return (
     <button onClick={clickHandler} disabled={!canConsume}>
-      {canConsume ? `Simulate Consume Credit of ${CREDIT_AMOUNT}` : "Credit Limit Reached"}
+      {canConsume
+        ? `Simulate Consume Credit of ${CREDIT_AMOUNT}`
+        : "Credit Limit Reached"}
     </button>
   );
 };

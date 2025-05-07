@@ -6,34 +6,60 @@ go over with chatgpt
 <h1>Project Name</h1>
 Implementing Usage Limits for Free-Tier Users in Next.js
 
-<h2>Project Description</h2>
-This project implements a robust usage limiter for a Next.js video upload application, leveraging Clerk for user management and enforcing credit-based limits on free-tier accounts.
 
-Features
+<h2>Project Description</h2>
+<p>
+  This project delivers a robust usage limiter for a Next.js video upload
+  application, ensuring fair resource allocation for free-tier users. By
+  leveraging Clerk for user management and enforcing credit-based limits, it
+  effectively manages costs and maintains a positive user experience.
+</p>
+
+<h3>Core Features</h3>
 <ul>
-  <li>Per-user credit usage tracking</li>
-  <li>Clerk integration with roles (<code>admin</code>, <code>freeTier</code>)</li>
-  <li>Middleware enforcement for page access under usage limit : credit and video upload</li>
-  <li>Client-side handling for usage limit : credit and video upload before calling usage based API</li>
+  <li><strong>Per-user credit tracking.</strong></li>
+  <li>
+    <strong>Clerk role-based limit enforcement (<code>admin</code>,
+    <code>freeTier</code>).</strong>
+  </li>
+  <li><strong>Middleware prevents page access upon reaching limits.</strong></li>
+  <li><strong>Prevent API calls exceeding limits with client-side checks.</strong></li>
 </ul>
 
-
-<h2>Motivation</h2> 
-in post2video (next.js app router project) i have open ai key which is share by all users. currently i am working on the free tier and i want to allow each user on the free tier to have up to 6 video upload to youtube and consume no more than 20 cents (later there will be payed tier so things will be more complex) 
-
-I all ready manage users with clerk (clerkMiddleware , privateData) and i have two roles defined admin and freeTier
-
-
-- so how to do it ?
-
-minimally i need the following :
-- collect video uploads and api consumption per user
-- once limit reach notify and do not allow to enter specific pages
+<h2>Motivation</h2>
+<p>
+  The current Post2Youtube Next.js application shares a single OpenAI API key
+  among all users. This presents challenges in managing resource consumption,
+  especially as the application scales and plans for paid tiers are developed.
+  To address this, the immediate need is to implement usage limits for free-tier
+  users.
+</p>
+<p>
+  The specific requirements for the free tier are to limit each user to a maximum
+  of 6 video uploads to YouTube and a total API cost of $0.20. The existing
+  Clerk user management system, with its <code>admin</code> and
+  <code>freeTier</code> roles, along with <code>clerkMiddleware</code> and
+  <code>privateData</code>, provides a foundation for implementing these limits.
+</p>
+<p>
+  To achieve this, the following functionalities are minimally required:
+</p>
+<ul>
+  <li>Tracking the number of video uploads per user.</li>
+  <li>Monitoring the API consumption costs associated with each user.</li>
+  <li>Implementing a mechanism to notify users when they reach their limits and restrict access to relevant pages.</li>
+</ul>
+<p>The core question is how to integrate these requirements seamlessly within the existing Next.js and Clerk architecture.</p>
 
 <h2>Installation</h2>
-
-follow <a href='#ref1'>[1]</a> for creating the project skeleton
-and <a href='#ref2'>[2]</a> for creating the admin role in the clerk dashboard
+<p>
+  To get started with this project, please follow the instructions in
+  <a href='#ref1'>[1]</a> for creating the basic project structure.
+</p>
+<p>
+  Additionally, refer to <a href='#ref2'>[2]</a> for detailed steps on how to
+  create the necessary <code>admin</code> role within your Clerk dashboard.
+</p>
 
 <h2>Usage</h2>
 
@@ -45,47 +71,118 @@ npm run dev
 
 <h2>Technologies Used</h2>
 <ul>
-<li>clerk</li>
-<li>next.js app router</li>
-<li>zod</li>
-<li>typescript</li>
+<li>Clerk </li>
+<li>Next.js App Router</li>
+<li>Zod </li>
+<li>TypeScript </li>
 </ul>
 
 <h2>Design</h2>
-**** Tradeoffs
 
-`layout.tsx` is a server component, which improves security and performance.
-However, it forces all child pages to be server components.
-Solution: extract interactivity into small client components.
+<h3>Tradeoffs</h3>
+<p>
+  Using <code>layout.tsx</code> as a server component offers improved security
+  and performance. <strong>However, the tradeoff is that it initially
+  forces all pages to also be server components</strong>, which lack
+  client-side interactivity.
+</p>
+<p>
+  <strong>Solution:</strong> To enable interactivity where needed, we extract
+  interactive elements into small client components.
+</p>
 
 
-**** Constraints
-- using clerk api in free tier is limited check <a href='https://clerk.com/docs/backend-requests/resources/rate-limits'>rate-limit</a> including currentUser  
+<h3>Constraints</h3>
+<ul>
+  <li>
+    Using Clerk API in the free tier is limited. See the
+    <a
+      href='https://clerk.com/docs/backend-requests/resources/rate-limits'
+      target='_blank'
+      rel='noopener noreferrer'
+      >Clerk Rate Limits</a
+    > (including <code>currentUser</code>). Mitigate this by passing the
+    <code>User</code> object as an argument e.g.,
+    <code>getPrivateMetadata(user: User)</code> instead of repeatedly fetching
+    it.
+  </li>
+</ul>
+
+ <h3>Questions</h3>
+
+<h4>Where to put common page navigation code</h4>
+<p>Hooks, check e.g., <code>useNavigateOnUsageExceedLimit</code>.</p>
 
 
-**** Questions
+<h4>Pattern for actions</h4>
+<ul>
+  <li>
+    Core logic in the <code>logic</code> folder to be used in middleware and
+    server components (e.g., <code>canUploadYoutubeVideo</code>). This logic operates
+    in a server environment with direct access to the Clerk <code>User</code> object.
+  </li>
+  <li>
+    Action in the <code>actions</code> folder (Server Actions) to be used when
+    triggered from the client. These actions (e.g.,
+    <code>actionCanUploadYoutubeVideo</code>) handle retrieving or accessing the
+    necessary <code>User</code> object on the server by using the core logic .
+  </li>
+</ul>
 
-<h3>where to put common page navigation code</h3>
-hooks
 
-<h3>pattern for actions</h3>
-- core in logic folder to be used in middleware and server component
-- action in actions folder to be used in the client and provide User
+<h4>Where to check usage exceed limit</h4>
+<ul>
+  <li>
+    <strong>Before navigating to a page:</strong> Seems better for enforcing
+    limits based on user roles but could act as a gatekeeper, potentially
+    blocking access prematurely.
+  </li>
+  <li>
+    <strong>Before invoking a relevant function:</strong> Seems like the most
+    precise and appropriate place to check usage when consumed on the client.
+  </li>
+</ul>
 
-<h3>where to check usage exceed limit</h3>
-two options
-- before navigate to page - seems better with role granularity but can be gatekeeper
-- before invoke function relevant function - seem the best place
-
-<h3>how to notify on usage exceed limit</h3>
+<!-- <h4>How to notify on usage exceed limit</h4>
 two options
 - navigate to new page "Usage Limit Exceeded"
 - toast inline
 
-once user exceed limit he can not continue in the page so best solutiuon is navigate to new page. also there you can suggest him to buy credit 
+once user exceed limit he can not continue in the page so best solutiuon is navigate to new page. also there you can suggest him to buy credit  -->
 
-<h3>usage limiter test</h3>
-usage limiter is super critical module - automatic test is required with 100% module test coverage
+<h4>How to notify on usage exceed limit</h4>
+<ul>
+  <li>Navigate to a new page "Usage Limit Exceeded".</li>
+  <li>Toast inline notification.</li>
+</ul>
+<p>
+  When checking usage limits in <strong>middleware</strong>, navigating to a
+  new page is the only viable option for notification, as inline toasts are not
+  available in this server-side environment.
+</p>
+<p>
+  While <strong>inline toasts</strong> could be used for client-side checks
+  before invoking functions, the most effective solution overall is to
+  <strong>navigate to a dedicated "Usage Limit Exceeded" page</strong>. This
+  approach is consistent across both middleware and client-side checks.
+</p>
+<p>
+  Furthermore, a dedicated page provides ample space to not only inform the user
+  about the exceeded limit but also to suggest solutions such as purchasing more
+  credit or upgrading to a paid tier for higher usage allowances. This level of
+  guidance and potential for upselling is not easily achievable with inline
+  toast notifications.
+</p>
+
+
+
+<h4>Usage limiter test</h4>
+<p>
+  The usage limiter is a super critical module, and therefore, automatic testing
+  is required with 100% module test coverage. <strong>Note: These tests are
+  not implemented in this initial project description but should be a
+  prerequisite before deploying to production.</strong>
+</p>
 
 <h2>Code Structure</h2>
 

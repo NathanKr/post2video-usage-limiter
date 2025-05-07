@@ -1,23 +1,22 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import {
   actionCanUploadYoutubeVideo,
   actionIncrementUploadByOne,
 } from "@/actions/usage-limiter-actions";
-import { PageUrl } from "@/types/enums";
+import useNavigateOnUsageExceedLimit from "@/hooks/use-navigate-on-usage-exceed-limit";
 import { useState } from "react";
 
 const ClientUploadButton =  () => {
   const [canUpload, setCanUpload] = useState(true); //can be improved by correct one
-  const router = useRouter();
+  const { navigateOnUsageLimitExceeded } = useNavigateOnUsageExceedLimit(); // Use the custom hook
 
   const clickHandler = async () => {
     const uploadAllowed = await actionCanUploadYoutubeVideo();
     setCanUpload(uploadAllowed);
 
     if (!uploadAllowed) {
-      router.push(PageUrl.UsageLimitExceeded);
+      navigateOnUsageLimitExceeded();
       return;
     }
     await actionIncrementUploadByOne();
