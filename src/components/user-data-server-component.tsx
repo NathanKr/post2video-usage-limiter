@@ -16,7 +16,7 @@ export default async function UserDataServerComponent() {
       <p>
         privateMetadata :{" "}
         {privateMetadata
-          ? `creditLeftCents : ${privateMetadata.creditConsumedCents} , numYoutubeVideoUploadLeft : ${privateMetadata.youtubeVideosUploaded} , role : ${privateMetadata.role}`
+          ? `creditConsumedCents : ${privateMetadata.creditConsumedCents} , youtubeVideosUploaded : ${privateMetadata.youtubeVideosUploaded} , role : ${privateMetadata.role}`
           : "N / A"}
       </p>
     </div>

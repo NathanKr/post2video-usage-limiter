@@ -5,43 +5,43 @@ import {
 } from "./clerk-user-data-utils";
 import { MAX_CREDIT_CENTS, MAX_UPLOADS } from "./constants";
 
-/**
- * pre condition : privateUserData exist
- * @param youtubeVideosUploaded
- */
-export async function updateYoutubeVideosUploaded(
-  user: User,
-  youtubeVideosUploaded: number
-): Promise<void> {
-  const privateUserData = await getPrivateMetadata(user);
+// /**
+//  * pre condition : privateUserData exist
+//  * @param youtubeVideosUploaded
+//  */
+// export async function updateYoutubeVideosUploaded(
+//   user: User,
+//   youtubeVideosUploaded: number
+// ): Promise<void> {
+//   const privateUserData = await getPrivateMetadata(user);
 
-  if (!privateUserData) {
-    throw new Error("Unexpected empty privateData");
-  }
+//   if (!privateUserData) {
+//     throw new Error("Unexpected empty privateData");
+//   }
 
-  privateUserData.youtubeVideosUploaded = youtubeVideosUploaded;
+//   privateUserData.youtubeVideosUploaded = youtubeVideosUploaded;
 
-  await setPrivateMetadata(privateUserData);
-}
+//   await setPrivateMetadata(privateUserData);
+// }
 
-/**
- * pre condition : privateUserData exist
- * @param creditConsumedCents
- */
-export async function updateCreditConsumedCents(
-  user: User,
-  creditConsumedCents: number
-): Promise<void> {
-  const privateUserData = await getPrivateMetadata(user);
+// /**
+//  * pre condition : privateUserData exist
+//  * @param creditConsumedCents
+//  */
+// export async function updateCreditConsumedCents(
+//   user: User,
+//   creditConsumedCents: number
+// ): Promise<void> {
+//   const privateUserData = await getPrivateMetadata(user);
 
-  if (!privateUserData) {
-    throw new Error("Unexpected empty privateData");
-  }
+//   if (!privateUserData) {
+//     throw new Error("Unexpected empty privateData");
+//   }
 
-  privateUserData.creditConsumedCents = creditConsumedCents;
+//   privateUserData.creditConsumedCents = creditConsumedCents;
 
-  await setPrivateMetadata(privateUserData);
-}
+//   await setPrivateMetadata(privateUserData);
+// }
 
 export const canUseCredit = async (user: User,): Promise<boolean> => {
   const privateData = await getPrivateMetadata(user);

@@ -1,5 +1,6 @@
 <h1>todo</h1>
 - code not nice e.g. in middleware
+- api rate limit (<a href='https://clerk.com/docs/backend-requests/resources/rate-limits'>docs</a>) in network tab - how to get it ,does /v1 ispart of api
 
 <h1>Project Name</h1>
 ....
@@ -42,11 +43,26 @@ and <a href='#ref2'>[2]</a> for creating the admin role in the clerk dashboard
 </ul>
 
 <h2>Design</h2>
+**** Tradeoffs
+in <a href='#ref2'>[2]</a> i have pointed that the layout.tsx is a server component and this help me securing easyly tabs.
+However, every page is using it so every page must be server component. 
+What happen if you need to handle user event ? extract the code to client component and use in the server component
+
+
+
+
 **** Constraints
 - using clerk api in free tier is limited check <a href='https://clerk.com/docs/backend-requests/resources/rate-limits'>rate-limit</a> including currentUser  
 
 
 **** Questions
+
+<h3>where to put common page navigation code</h3>
+hooks
+
+<h3>pattern for actions</h3>
+- core in logic folder to be used in middleware and server component
+- action in actions folder to be used in the client and provide User
 
 <h3>where to check usage exceed limit</h3>
 two options

@@ -1,9 +1,14 @@
-import React from 'react'
+import { actionCanUploadYoutubeVideo } from "@/actions/usage-limiter-actions";
+import ClientUploadButton from "@/components/client-upload-button";
 
-export default function UploadYoutubeVideo() {
+export default async function UploadYoutubeVideoPage() {
+  const canUpload = await actionCanUploadYoutubeVideo();
+
   return (
     <>
-    <h2>UploadYoutubeVideo page</h2>
+      <h2>UploadYoutubeVideo page</h2>
+      <ClientUploadButton canUpload={canUpload} />
     </>
-  )
+  );
 }
+
