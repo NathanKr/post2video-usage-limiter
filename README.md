@@ -107,6 +107,8 @@ npm run dev
 
  <h3>Questions</h3>
 
+The key design questions are detailed below:
+
 <h4>Where to put common page navigation code</h4>
 <p>Hooks, check e.g., <code>useNavigateOnUsageExceedLimit</code>.</p>
 
