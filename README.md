@@ -249,12 +249,12 @@ export const incrementCostByAmount = async (
 
 ```tsx
 
-  const clickHandler = async () => {
+ const clickHandler = async () => {
     const consumeCreditAllowed = await actionCanConsumeCredit();
     setCanConsume(consumeCreditAllowed);
 
     if (!consumeCreditAllowed) {
-      router.push(PageUrl.UsageLimitExceeded);
+      navigateOnUsageLimitExceeded();
       return;
     }
     await actionIncrementCostByAmount(CREDIT_AMOUNT);
